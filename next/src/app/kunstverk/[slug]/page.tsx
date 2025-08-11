@@ -1,6 +1,7 @@
 import { sanityClient } from "@/lib/sanity";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { VERCEL_URL } from "@/lib/env"
 
 const query = `
     *[_type == "artwork" && slug.current == $slug][0]{
@@ -52,7 +53,7 @@ export default async function ArtworkPage({ params }: PageProps ) {
           className="snipcart-add-item bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700"
           data-item-id={artwork.slug}
           data-item-price={artwork.price}
-          data-item-url={`/kunstverk/${artwork.slug}`}
+          data-item-url={`${VERCEL_URL}/kunstverk/${artwork.slug}`}
           data-item-description={artwork.description || ''}
           data-item-image={artwork.image?.asset?.url || ''}
           data-item-name={artwork.Title}

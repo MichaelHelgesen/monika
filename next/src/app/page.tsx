@@ -1,6 +1,7 @@
 import { getArtworks } from "@/lib/queries";
 import Image from "next/image";
 import Link from "next/link";
+import { VERCEL_URL } from "@/lib/env";
 
 export default async function HomePage() {
     const artworks = await getArtworks()
@@ -32,7 +33,7 @@ export default async function HomePage() {
     className="snipcart-add-item mt-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
     data-item-id={artwork.slug}
     data-item-price={artwork.price}
-    data-item-url={`/`} // siden alle produktene vises her
+    data-item-url={`${VERCEL_URL}/` // siden alle produktene vises her
     data-item-description={artwork.description}
     data-item-image={artwork.image?.asset?.url}
     data-item-name={artwork.Title}

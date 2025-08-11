@@ -13,3 +13,8 @@ export const SANITY_DATASET = process.env.NEXT_PUBLIC_SANITY_DATASET;
 if(!SANITY_DATASET) {
     throw new Error("Miljøvariabel NEXT_PUBLIC_SANITY_DATASET mangler");
 }
+
+export const VERCL_URL = process.env-NEXT_PUBLIC_VERCEL_URL;
+if(!VERCEL_URL) {
+    throw new Error("Miljøvariabel NEXT_PUBLIC_VERCEL_URL mangler");
+}
