@@ -4,13 +4,15 @@
 import { useEffect } from 'react'
 
 
+interface SnipcartSettings {
+  publicApiKey: string;
+  loadStrategy?: string;
+  // legg til flere felter her hvis du bruker dem
+}
+
 declare global {
   interface Window {
-    SnipcartSettings?: {
-      publicApiKey: string;
-      loadStrategy?: string;
-      [key: string]: any;
-    };
+    SnipcartSettings?: SnipcartSettings;
   }
 }
 
@@ -20,7 +22,7 @@ export default function SnipcartProvider() {
 
     // Sett Snipcart config
     window.SnipcartSettings = {
-      publicApiKey: 'NGRiNDg3NWItZmU0Yy00ODM5LTllZWQtNGQyNjBkMGE4YjY4NjM4OTAyNDEwNDg5MTEzNjY2',
+      publicApiKey: process.env.NEXT_PUBLIC_SNIPCART_API_KEY,
       loadStrategy: 'on-user-interaction', // eller 'always'
     }
 
