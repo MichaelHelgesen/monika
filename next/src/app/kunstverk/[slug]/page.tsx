@@ -19,8 +19,14 @@ const query = `
     }
 `
 
-export default async function ArtworkPage({ params }: { params: { slug: string} }) {
+type PageProps = {
+    params: {
+        slug: string;
+    };
+};
 
+//export default async function ArtworkPage({ params }: { params: { slug: string} }) {
+export default async function ArtworkPage({ params }: PageProps ) {
     const artwork = await sanityClient.fetch(query, { slug: params.slug })
 
         if (!artwork) return notFound()
