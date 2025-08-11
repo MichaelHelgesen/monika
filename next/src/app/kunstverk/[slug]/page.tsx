@@ -27,6 +27,8 @@ type PageProps = {
 
 //export default async function ArtworkPage({ params }: { params: { slug: string} }) {
 export default async function ArtworkPage({ params }: PageProps ) {
+    const { slug } = params;
+
     const artwork = await sanityClient.fetch(query, { slug: params.slug })
 
         if (!artwork) return notFound()
