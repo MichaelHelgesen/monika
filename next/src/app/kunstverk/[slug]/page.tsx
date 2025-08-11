@@ -55,7 +55,7 @@ export default async function ArtworkPage({ params }: PageProps ) {
           className="snipcart-add-item bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700"
           data-item-id={artwork.slug}
           data-item-price={artwork.price}
-          data-item-url={`${baseUrl}/kunstverk/${artwork.slug}`}
+          data-item-url={`https://monika-kappa.vercel.app/kunstverk/${artwork.slug}`}
           data-item-description={artwork.description || ''}
           data-item-image={artwork.image?.asset?.url || ''}
           data-item-name={artwork.Title}

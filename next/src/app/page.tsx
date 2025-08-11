@@ -35,7 +35,7 @@ export default async function HomePage() {
     className="snipcart-add-item mt-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
     data-item-id={artwork.slug}
     data-item-price={artwork.price}
-    data-item-url={`${baseUrl}/`} // siden alle produktene vises her
+    data-item-url={`https://monika-kappa.vercel.app/`} // siden alle produktene vises her
     data-item-description={artwork.description}
     data-item-image={artwork.image?.asset?.url}
     data-item-name={artwork.Title}
