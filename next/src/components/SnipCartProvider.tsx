@@ -3,6 +3,11 @@
 
 import { useEffect } from 'react'
 
+const snipcartApiKey = process.env.NEXT_PUBLIC_SNIPCART_API_KEY;
+
+if (!snipcartApiKey) {
+    throw new Error("Snipcart API-nøkkel mangler. Har du satt NEXT_PUBLIC_SNIPCART_API_KEY?");
+}
 
 interface SnipcartSettings {
   publicApiKey: string;
@@ -22,7 +27,7 @@ export default function SnipcartProvider() {
 
     // Sett Snipcart config
     window.SnipcartSettings = {
-      publicApiKey: process.env.NEXT_PUBLIC_SNIPCART_API_KEY,
+      publicApiKey: snipcartApiKey,
       loadStrategy: 'on-user-interaction', // eller 'always'
     }
 
