@@ -9,7 +9,7 @@ export default async function HomePage() {
         <main className="p-8">
       <h1 className="text-3xl font-bold mb-8">Kunstverk</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-        {artworks.map((artwork: any) => (
+        {artworks.map((artwork: string) => (
           <div key={artwork._id} className="border rounded p-4">
             {artwork.image?.asset?.url && (
               <Image
