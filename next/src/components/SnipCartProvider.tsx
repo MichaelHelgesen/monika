@@ -3,6 +3,17 @@
 
 import { useEffect } from 'react'
 
+
+declare global {
+  interface Window {
+    SnipcartSettings?: {
+      publicApiKey: string;
+      loadStrategy?: string;
+      [key: string]: any;
+    };
+  }
+}
+
 export default function SnipcartProvider() {
   useEffect(() => {
     if (typeof window === 'undefined') return

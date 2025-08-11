@@ -18,18 +18,15 @@ const query = `
         }
     }
 `
+interface PageProps {
+    params: Promise<{ slug: string }>;
+}
 
-type PageProps = {
-    params: {
-        slug: string;
-    };
-};
 
-//export default async function ArtworkPage({ params }: { params: { slug: string} }) {
+
 export default async function ArtworkPage({ params }: PageProps ) {
-    const { slug } = params;
-
-    const artwork = await sanityClient.fetch(query, { slug: params.slug })
+    const { slug } = await params;
+    const artwork = await sanityClient.fetch(query, { slug: slug })
 
         if (!artwork) return notFound()
 
@@ -66,3 +63,5 @@ export default async function ArtworkPage({ params }: PageProps ) {
     </div>
         )
 }
+
+

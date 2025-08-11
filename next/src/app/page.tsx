@@ -9,12 +9,12 @@ export default async function HomePage() {
         <main className="p-8">
       <h1 className="text-3xl font-bold mb-8">Kunstverk</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-        {artworks.map((artwork: {_id: string; url: string; Title: string; slug: string; description: string; price: number; avaliable: boolean}) => (
+        {artworks.map((artwork: {_id: string; url: string; Title: string; slug: string; description: string; price: number; avaliable: boolean; image: { asset: { url: string; src: string; alt: string }  }}) => (
           <div key={artwork._id} className="border rounded p-4">
             {artwork.image?.asset?.url && (
               <Image
                 src={artwork.image.asset.url}
-                alt={artwork.title}
+                alt={artwork.Title}
                 width={400}
                 height={400}
                 className="object-cover w-full h-auto"
@@ -27,7 +27,6 @@ export default async function HomePage() {
             <p className="text-green-600 mt-2 font-bold">
               {artwork.price} NOK
             </p>
-            {console.log(artwork)}
               {artwork.avaliable && (
   <button
     className="snipcart-add-item mt-2 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
