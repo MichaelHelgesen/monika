@@ -16,10 +16,16 @@ export async function getPageBySlug(slug: string) {
     { slug }
   )
 }
-//
-// lib/sanity.ts
 
-export async function getMenuPages() {
+
+
+export type Page = {
+  slug: string;
+  title: string;
+  menuTitle?: string;
+}
+
+export async function getMenuPages(): Promise<Page[]> {
   return sanityClient.fetch(
     `*[_type == "page" && showInMenu == true] | order(menuOrder asc) {
       title,

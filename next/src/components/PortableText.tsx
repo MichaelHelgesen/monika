@@ -1,16 +1,27 @@
 // components/PortableText.tsx
 "use client"
 
-import { PortableText as PT } from "@portabletext/react"
+import { PortableText as PT, PortableTextBlock } from "@portabletext/react"
 import Image from "next/image"
 
-export function PortableText({ value }: { value: any }) {
+type Props = {
+    value: PortableTextBlock[]
+}
+
+type SanityImageValue = {
+  asset: {
+    url: string
+  }
+  alt?: string
+}
+
+export function PortableText({ value }: Props) {
   return (
     <PT
       value={value}
       components={{
         types: {
-          image: ({ value }: any) => (
+          image: ({ value }: { value: SanityImageValue }) => (
             <div style={{ margin: "2rem 0" }}>
               <Image
                 src={value.asset.url}
