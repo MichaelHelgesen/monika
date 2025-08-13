@@ -3,7 +3,7 @@ import { sanityClient} from "./sanity"
 export async function getArtworks() {
     const query = `*[_type == "artwork"]{
         _id,
-        Title,
+        title,
         "slug": slug.current,
         description,
         price,

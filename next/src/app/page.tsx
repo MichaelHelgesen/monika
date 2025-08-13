@@ -12,19 +12,19 @@ export default async function HomePage() {
         <main className="p-8">
       <h1 className="text-3xl font-bold mb-8">Kunstverk</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-        {artworks.map((artwork: {_id: string; url: string; Title: string; slug: string; description: string; price: number; avaliable: boolean; image: { asset: { url: string; src: string; alt: string }  }}) => (
+        {artworks.map((artwork: {_id: string; url: string; title: string; slug: string; description: string; price: number; avaliable: boolean; image: { asset: { url: string; src: string; alt: string }  }}) => (
           <div key={artwork._id} className="border rounded p-4">
             {artwork.image?.asset?.url && (
               <Image
                 src={artwork.image.asset.url}
-                alt={artwork.Title}
+                alt={artwork.title}
                 width={400}
                 height={400}
                 className="object-cover w-full h-auto"
               />
             )}
             <Link href={`/kunstverk/${artwork.slug}`}>
-            <h2 className="text-xl font-semibold mt-2">{artwork.Title}</h2>
+            <h2 className="text-xl font-semibold mt-2">{artwork.title}</h2>
             </Link>
             <p className="text-gray-700">{artwork.description}</p>
             <p className="text-green-600 mt-2 font-bold">
@@ -38,7 +38,7 @@ export default async function HomePage() {
     data-item-url={`https://monika-kappa.vercel.app/`} // siden alle produktene vises her
     data-item-description={artwork.description}
     data-item-image={artwork.image?.asset?.url}
-    data-item-name={artwork.Title}
+    data-item-name={artwork.title}
   >
     Legg i handlekurv
   </button>
