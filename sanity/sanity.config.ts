@@ -4,6 +4,8 @@ import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
 import { dashboardTool } from '@sanity/dashboard'
 import { dashboardConfig } from './dashboardConfig'
+//import { deskTool } from "sanity/desk"
+//import { structure } from "./deskStructure"
 
 export default defineConfig({
   name: 'default',
