@@ -1,7 +1,8 @@
-// app/[slug]/page.tsx
 import { sanityClient } from '@/lib/sanity';
 import { notFound } from 'next/navigation';
 import { PortableText } from '@portabletext/react';
+//import { getPageBySlug } from "@/lib/sanity";
+//import { getSlugs } from "@/lib/sanity"
 
 export async function generateStaticParams() {
   const slugs: { slug: string }[] = await sanityClient.fetch(
@@ -10,7 +11,6 @@ export async function generateStaticParams() {
   return slugs.map((slug) => ({ slug }));
 }
 
-// Denne funksjonen kan erstattes med direkte datainnhenting i selve komponenten
 export default async function Page({ params }: { params: { slug: string } }) {
 const { slug } = await params;
   // Hent data for den spesifikke slugen

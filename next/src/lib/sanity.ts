@@ -6,17 +6,22 @@ export const sanityClient = createClient ({
     useCdn: true,
     apiVersion: "2023-01-01",
 })
-
+/*
+export async function getSlugs() {
+  return sanityClient.fetch(
+    `*[_type == "page" && defined(slug.current)][].slug.current`
+  )
+}
 export async function getPageBySlug(slug: string) {
   return sanityClient.fetch(
-    `*[_type == "page" && URL.current == $slug][0]{
+    `*[_type == "page" && slug.current == $slug][0]{
       title,
       content
     }`,
-    { slug }
+    slug
   )
 }
-
+*/
 
 
 export type Page = {
@@ -29,7 +34,7 @@ export async function getMenuPages(): Promise<Page[]> {
   return sanityClient.fetch(
     `*[_type == "page" && showInMenu == true] | order(menuOrder asc) {
       title,
-      "slug": URL.current,
+      "slug": slug.current,
       menuTitle
     }`
   )
