@@ -11,7 +11,7 @@ export const pages = defineType ({
             title: "Tittel"
         }),
         defineField({
-            name: "URL",
+            name: "slug",
             type: "slug",
             readOnly: () => process.env.NODE_ENV !== 'development',
             options: {
