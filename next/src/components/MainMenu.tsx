@@ -8,7 +8,11 @@ export async function MainMenu() {
   const pages: Page[] = await getMenuPages()
 
   return (
-    <nav className="flex gap-6 text-lg font-medium">
+    <nav className="flex flex-wrap gap-6 text-lg font-medium">
+
+        <Link key="hjem" href="/">
+          Hjem
+        </Link>
       {pages.map((page) => (
         <Link key={page.slug} href={`/${page.slug}`}>
           {page.menuTitle || page.title}
