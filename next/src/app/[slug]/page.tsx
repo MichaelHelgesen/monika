@@ -4,6 +4,15 @@ import { PortableText } from '@portabletext/react';
 //import { getPageBySlug } from "@/lib/sanity";
 //import { getSlugs } from "@/lib/sanity"
 
+type PageProps = {
+  params: Promise<{
+    slug: string;
+  }>;
+};
+
+// Hente slugs fra alle sider i Sanity,
+// og lager array av objekter av dem,
+// som blir konvertert til statiske baner.
 export async function generateStaticParams() {
   const slugs: { slug: string }[] = await sanityClient.fetch(
     `*[_type == "page" && defined(slug.current)][].slug.current`
@@ -11,7 +20,10 @@ export async function generateStaticParams() {
   return slugs.map((slug) => ({ slug }));
 }
 
-export default async function Page({ params }: { params: { slug: string } }) {
+// Hver av slug-ene fra StaticParam sendes
+// gjennom Page-funksjonen for å hente tilhørende
+// side-data fra Sanity.
+export default async function Page({ params }: PageProps) {
 const { slug } = await params;
   // Hent data for den spesifikke slugen
   const page = await sanityClient.fetch(
@@ -19,7 +31,7 @@ const { slug } = await params;
       title,
       content
     }`,
-    { slug }
+    { slug } // Sende parameter til Sanity for å matche slugs.
   );
 
   // Håndter tilfelle der siden ikke finnes

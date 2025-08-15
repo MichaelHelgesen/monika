@@ -1,9 +1,6 @@
 import { getArtworks } from "@/lib/queries";
 import Image from "next/image";
 import Link from "next/link";
-import { getBaseUrl } from "@/lib/getBaseUrl"
-
-const baseUrl = getBaseUrl();
 
 export default async function HomePage() {
     const artworks = await getArtworks()
