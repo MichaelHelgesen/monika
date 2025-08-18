@@ -52,6 +52,12 @@ defineField({
   name: "menuOrder",
   type: "number",
   title: "Sorteringsrekkefølge i menyen"
+}),
+defineField({
+    name: "artForm",
+    title: "Referanse til kunstform",
+    type: "reference",
+    to: [{ type: "artForm" }]
 })
     ]
 })
