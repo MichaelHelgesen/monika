@@ -34,6 +34,7 @@ const { slug } = await params;
       content,
       artForm->{
       title,
+      description,
       _id
     }
     }`,
@@ -52,7 +53,6 @@ if(!page.artForm){
     <main>
       <h1>{page.title}</h1>
       <PortableText value={page.content} />
-      {page.artForm && <p>Siden har motiver</p>}
       <ul>
         </ul>
     </main>
@@ -122,24 +122,30 @@ console.log(test)
 
   // Returner JSX med innholdet
   return (
-    <main>
-      <h1>{page.title}</h1>
+    <main className="px-4 py-8">
+      <h1 className="text-2xl text-center font-bold mb-2">{page.title}</h1>
+      <div className="mb-6 text-center">
       <PortableText value={page.content} />
-      {page.artForm && <p>Siden har motiver</p>}
+      </div>
+      <p className="text-center mb-6">{page.artForm.description}</p>
       <ul>
       {(test as { category: string; count: number; imageUrl: string }[]).map((artwork, idx) => {
             return(
-          <li key={idx}>
-          <Link key={idx} href={`${slug}/${artwork.category.toLowerCase()}`}>
-            <p>{artwork.category} <span>{artwork.count}</span></p>
-            <Image
-                src={artwork.imageUrl}
-                width={400}
-                height={400}
-                alt=""
-                />
-            </Link>
-          </li>
+<li key={idx} className="relative h-64 rounded-lg overflow-hidden shadow-md group">
+        <Link href={`${slug}/${artwork.category.toLowerCase()}`}>
+          <Image
+            src={artwork.imageUrl}
+            alt={artwork.category}
+            width={400}
+            height={400}
+            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+          />
+          <div className="absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-white px-4 text-center">
+            <p className="text-xl font-semibold">{artwork.category}</p>
+            <span className="text-sm">{artwork.count} verk</span>
+          </div>
+        </Link>
+      </li>
         )})}
         </ul>
     </main>

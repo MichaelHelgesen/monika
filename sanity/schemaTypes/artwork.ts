@@ -65,14 +65,15 @@ export const artwork = defineType ({
             type: "text",
         },
         {
-            name: "price",
-            title: "Pris",
-            type: "number",
-        },
-        {
             name: "avaliable",
             title: "Tilgjengelig for salg",
             type: "boolean"
+        },
+        {
+            name: "price",
+            title: "Pris",
+            type: "number",
+hidden: ({ parent }) => !parent?.avaliable,
         },
         {
             name: "workType",
@@ -86,19 +87,5 @@ export const artwork = defineType ({
             type: "reference",
             to: [{type: "artCategory"}]
         },
-        {
-            name: "markering",
-            title: "Kategori",
-            type: "string",
-            options: {
-                list: [
-                    {title: "Ingen", value: "ingen"},
-                    {title: "Oppdrag", value: "oppdrag"},
-                    {title: "Salgsutstilling", value: "salg"},
-                ],
-                layout: "radio",
-            },
-            initialValue: "ingen"
-        }
     ]
 })

@@ -9,6 +9,11 @@ export const artForms = defineType ({
             name: "Tittel",
             type: "string",
         }),
+        defineField({
+            name: "description",
+            type: "text",
+            title: "Beskrivelse"
+        }),
     ]
 })
 

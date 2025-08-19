@@ -8,7 +8,7 @@ export async function MainMenu() {
   const pages: Page[] = await getMenuPages()
 
   return (
-    <nav className="flex flex-wrap gap-6 text-lg font-medium">
+    <nav className="flex flex-wrap justify-center gap-6 text-lg font-medium">
 
         <Link key="hjem" href="/">
           Hjem

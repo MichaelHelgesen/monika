@@ -9,6 +9,11 @@ export const artCategory = defineType ({
             name: "Tittel",
             type: "string",
         }),
+        defineField({
+            title: "Beskrivelse",
+            type: "text",
+            name: "description"
+        })
     ]
 })
 

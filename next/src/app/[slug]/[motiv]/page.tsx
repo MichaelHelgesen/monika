@@ -27,7 +27,8 @@ export async function generateStaticParams() {
   for (const page of pages) {
     const artworks = await sanityClient.fetch(
       `*[_type == "artwork" && workType._ref == $artFormId && defined(category)]{
-        "motiv": lower(category->Tittel)
+        "motiv": lower(category->Tittel),
+        "description": category->description
       }`,
       { artFormId: page.artFormId }
     )
@@ -65,6 +66,9 @@ export default async function MotivPage({ params }: Props) {
   const artworks = await sanityClient.fetch(
     `*[_type == "artwork" && workType._ref == $artFormId && lower(category->Tittel) == $motiv]{
       title,
+      year,
+      price,
+      avaliable,
       slug,
       image{
         asset->{
@@ -72,7 +76,10 @@ export default async function MotivPage({ params }: Props) {
             url
         }
       },
-      description
+      description,
+      category->{
+        description
+      }
     }`,
     {
       artFormId: page.artForm._id,
@@ -82,28 +89,37 @@ export default async function MotivPage({ params }: Props) {
   if (!artworks.length) return notFound()
 
   return (
-    <main>
-      <h1>Motiv: {motiv}</h1>
-      <p>Totalt {artworks.length} kunstverk</p>
-      <ul>
-        {artworks.map((artwork:{title: string,image:{asset:{url:string}}, slug:{current: string}}, idx:number) => {
-            return(
-          <li key={idx}>
-            <h2>{artwork.title}</h2>
-            {artwork.image?.asset?.url && (
-                <Link href={`/${slug}/${motiv}/${artwork.slug.current}`}>
-              <Image
-                src={artwork.image.asset.url}
-                alt={artwork.title}
-                width={400}
-                height={400}
-                className="object-cover w-full h-auto"
-              />
-              </Link>
-            )}
-          </li>
-        )})}
-      </ul>
-    </main>
+<main className="px-4 py-8">
+  <h1 className="text-2xl font-bold text-center mb-2">Motiv: {motiv}</h1>
+  <p className="mb-2 text-center">{artworks[0]?.category?.description}</p>
+  <p className="mb-6 text-center">Totalt {artworks.length} kunstverk</p>
+
+<ul className="columns-1 sm:columns-2 md:columns-3 gap-4 [column-fill:_balance]">
+  {artworks.map(
+    (
+      artwork: {
+        title: string;
+        image: { asset: { url: string } };
+        slug: { current: string };
+      },
+      idx: number
+    ) => (
+      <li key={idx} className="mb-4 break-inside-avoid">
+        <Link href={`/${slug}/${motiv}/${artwork.slug.current}`}>
+          <Image
+            src={artwork.image.asset.url}
+            alt={artwork.title}
+            width={600}
+            height={800} // ← gir hint, men ikke tvang
+            className="w-full h-auto object-contain rounded shadow"
+          />
+          <p className="mt-1 text-sm text-center">{artwork.title}, {artwork.year}</p>
+          {artwork.avaliable && <p className="text-sm italic text-white/60 text-center">Til salgs</p>}
+        </Link>
+      </li>
+    )
+  )}
+</ul>
+</main>
   )
 }

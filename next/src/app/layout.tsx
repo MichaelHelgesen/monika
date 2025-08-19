@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import SnipcartProvider from "@/components/SnipCartProvider"
 import { MainMenu } from "@/components/MainMenu"
+import Header from "@/components/Header"
+import Footer from "@/components/Footer"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,11 +30,12 @@ export default function RootLayout({
     <html lang="no">
     <head>
     </head>
-        <body>
-            <MainMenu />
-            {children}
+<body className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1">{children}</main>
             <SnipcartProvider />
-        </body>
+        <Footer />
+      </body>
     </html>
   );
 }
