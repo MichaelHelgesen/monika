@@ -5,11 +5,11 @@ import { notFound } from 'next/navigation'
 import Image from "next/image";
 
 type PageProps = {
-  params: {
+  params: Promise<{
     slug: string
     motiv: string
     verk: string
-  }
+  }>;
 }
 
 // Hente slug fra alle kunstverk i Sanity,
@@ -50,6 +50,7 @@ const { slug, motiv, verk } = await params;
         src={page.image.asset.url}
                 width={400}
                 height={400}
+                alt=""
     />
          </main>
   );

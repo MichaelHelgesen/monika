@@ -41,6 +41,23 @@ const { slug } = await params;
   );
 
         // Hvor mange kunstverk med samme kunsttype (f.eks. maleri)
+
+
+  if (!page) {
+    return notFound(); // Returnerer en 404 hvis siden ikke finnes
+  }
+
+if(!page.artForm){
+  return (
+    <main>
+      <h1>{page.title}</h1>
+      <PortableText value={page.content} />
+      {page.artForm && <p>Siden har motiver</p>}
+      <ul>
+        </ul>
+    </main>
+  );
+}
 const artworks = await sanityClient.fetch(
     `*[_type == "artwork" && workType._ref == $artFormId]{
       title,
@@ -60,8 +77,8 @@ const artworks = await sanityClient.fetch(
     })
 console.log(artworks)
 
-
-const motiverTelling = artworks.reduce((acc: Record<string, number>, art: any) => {
+/*
+const motiverTelling = artworks.reduce((acc: Record<string, number>, art: {category:{ Tittel: string}, image:{asset:{url: string}}}) => {
   const category = art.category.Tittel || "Ukjent";
   const image = art.image.asset.url;
   acc[category] = (acc[category] || 0) + 1;
@@ -74,9 +91,9 @@ const motiverArray = Object.entries(motiverTelling).map(([category, count]) => (
   count,
 }));
 console.log("motiverArray", motiverArray);
-//
+*/
 
-const motivMap = artworks.reduce((acc, art) => {
+const motivMap = artworks.reduce((acc: Map<string, { category: string; count: number; imageUrl: string | null }>, art: {category:{Tittel: string}, image:{asset:{url: string}}}) => {
   const category = art.category?.Tittel || "Ukjent";
   const imageUrl = art.image?.asset?.url || null;
 
@@ -102,9 +119,6 @@ const motivMap = artworks.reduce((acc, art) => {
 const test = Array.from(motivMap.values())
 console.log(test)
   // Håndter tilfelle der siden ikke finnes
-  if (!page) {
-    return notFound(); // Returnerer en 404 hvis siden ikke finnes
-  }
 
   // Returner JSX med innholdet
   return (
@@ -113,7 +127,7 @@ console.log(test)
       <PortableText value={page.content} />
       {page.artForm && <p>Siden har motiver</p>}
       <ul>
-      {test.map((artwork, idx) => {
+      {(test as { category: string; count: number; imageUrl: string }[]).map((artwork, idx) => {
             return(
           <li key={idx}>
           <Link key={idx} href={`${slug}/${artwork.category.toLowerCase()}`}>
@@ -122,6 +136,7 @@ console.log(test)
                 src={artwork.imageUrl}
                 width={400}
                 height={400}
+                alt=""
                 />
             </Link>
           </li>

@@ -6,11 +6,11 @@ import Image from "next/image";
 import Link from "next/link";
 
 type Props = {
-  params: {
+  params: Promise<{
     slug: string
     motiv: string
-  }
-}
+  }>;
+};
 
 export async function generateStaticParams() {
   // Hent alle pages som har artForm
@@ -33,7 +33,7 @@ export async function generateStaticParams() {
     )
 
     const motiver = Array.from(
-      new Set(artworks.map((art: any) => art.motiv))
+      new Set(artworks.map((art: {motiv:string}) => art.motiv))
     )
 
     for (const motiv of motiver) {
@@ -86,7 +86,7 @@ export default async function MotivPage({ params }: Props) {
       <h1>Motiv: {motiv}</h1>
       <p>Totalt {artworks.length} kunstverk</p>
       <ul>
-        {artworks.map((artwork, idx) => {
+        {artworks.map((artwork:{title: string,image:{asset:{url:string}}, slug:{current: string}}, idx:number) => {
             return(
           <li key={idx}>
             <h2>{artwork.title}</h2>
