@@ -29,7 +29,10 @@ const { slug, motiv, verk } = await params;
         title,
         price,
         size,
+        number,
         avaliable,
+        details[]{asset->{url}},
+        supplement_images[]{asset->{url}},
         technique,
         year,
         category->{Tittel},
@@ -62,7 +65,7 @@ return (
         width={600}
         height={600}
         alt={page.title}
-        className="w-full h-auto rounded shadow-md object-contain"
+        className="w-full h-auto rounded shadow-md object-contain p-2 bg-[#f8f8f8] shadow-[0_8px_20px_rgba(0,0,0,0.3)] border-4 border-black"
         priority
       />
     </div>
@@ -86,6 +89,9 @@ return (
         )}
         {page.category?.Tittel && (
           <li><strong>Motiv:</strong> {page.category.Tittel}</li>
+        )}
+        {page.number && (
+          <li><strong>Antall tilgjengelig:</strong> {page.number}</li>
         )}
         {page.price && (
           <li class="text-lg font-semibold text-green-300 mb-2"><strong>Pris:</strong> {page.price}</li>
@@ -129,6 +135,48 @@ return (
       🛒 Handlekurv (<span className="snipcart-items-count"></span>)
     </button>
   </div>
+
+{(page.details?.length > 0 || page.supplement_images?.length > 0) && (
+  <section className="mt-12">
+    {page.details?.length > 0 && (
+      <>
+        <h2 className="text-xl font-semibold mb-2">Utsnitt</h2>
+        <ul className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          {page.details.map((image: any, idx: number) => (
+            <li key={idx}>
+              <Image
+                src={image.asset.url}
+                alt={`Utsnitt ${idx + 1}`}
+                width={400}
+                height={400}
+                className="w-full h-auto rounded shadow-md object-contain"
+              />
+            </li>
+          ))}
+        </ul>
+      </>
+    )}
+
+    {page.supplement_images?.length > 0 && (
+      <>
+        <h2 className="text-xl font-semibold mb-2">Arbeidsprosess</h2>
+        <ul className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {page.supplement_images.map((image: any, idx: number) => (
+            <li key={idx}>
+              <Image
+                src={image.asset.url}
+                alt={`Arbeidsbilde ${idx + 1}`}
+                width={400}
+                height={400}
+                className="w-full h-auto rounded shadow-md object-contain"
+              />
+            </li>
+          ))}
+        </ul>
+      </>
+    )}
+  </section>
+)}
 </main>
 );
 }

@@ -76,6 +76,12 @@ export const artwork = defineType ({
 hidden: ({ parent }) => !parent?.avaliable,
         },
         {
+            name: "number",
+            title: "Antall tilgjengelig",
+            type: "number",
+hidden: ({ parent }) => !parent?.avaliable,
+        },
+        {
             name: "workType",
             title: "Kunstform",
             type: "reference",

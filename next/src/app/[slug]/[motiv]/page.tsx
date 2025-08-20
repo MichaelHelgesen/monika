@@ -111,7 +111,7 @@ export default async function MotivPage({ params }: Props) {
             alt={artwork.title}
             width={600}
             height={800} // ← gir hint, men ikke tvang
-            className="w-full h-auto object-contain rounded shadow"
+            className="w-full h-auto object-contain p-2 bg-[#f8f8f8] shadow-[0_8px_20px_rgba(0,0,0,0.3)] border-4 border-black"
           />
           <p className="mt-1 text-sm text-center">{artwork.title}, {artwork.year}</p>
           {artwork.avaliable && <p className="text-sm italic text-white/60 text-center">Til salgs</p>}
