@@ -4,6 +4,7 @@ import { sanityClient } from '@/lib/sanity'
 import { notFound } from 'next/navigation'
 import Image from "next/image";
 import Link from "next/link";
+import Gallery from "@/components/Gallery";
 
 type PageProps = {
   params: Promise<{
@@ -60,14 +61,22 @@ return (
   <div className="flex flex-col md:flex-row md:items-start gap-6">
     {/* Bildet */}
     <div className="flex-shrink-0 w-full md:w-1/2">
-      <Image
+    {/*<Image
         src={page.image.asset.url}
         width={600}
         height={600}
         alt={page.title}
         className="w-full h-auto rounded shadow-md object-contain p-2 bg-[#f8f8f8] shadow-[0_8px_20px_rgba(0,0,0,0.3)] border-4 border-black"
         priority
-      />
+      />*/}
+<Gallery 
+    artworks={[page.image]} 
+    imageClassName="w-full h-auto object-contain p-2 bg-[#f8f8f8] shadow-[0_8px_20px_rgba(0,0,0,0.3)] border-4 border-black"
+    width={600}
+    height={600}
+    priority={true}
+    divClassName=""
+/>
     </div>
 
     {/* Tekst og info */}
@@ -141,38 +150,22 @@ return (
     {page.details?.length > 0 && (
       <>
         <h2 className="text-xl font-semibold mb-2">Utsnitt</h2>
-        <ul className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          {page.details.map((image: any, idx: number) => (
-            <li key={idx}>
-              <Image
-                src={image.asset.url}
-                alt={`Utsnitt ${idx + 1}`}
-                width={400}
-                height={400}
-                className="w-full h-auto rounded shadow-md object-contain"
-              />
-            </li>
-          ))}
-        </ul>
+<Gallery 
+    artworks={page.details}
+    divClassName="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
+    crop={true}
+/>
       </>
     )}
 
     {page.supplement_images?.length > 0 && (
       <>
         <h2 className="text-xl font-semibold mb-2">Arbeidsprosess</h2>
-        <ul className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {page.supplement_images.map((image: any, idx: number) => (
-            <li key={idx}>
-              <Image
-                src={image.asset.url}
-                alt={`Arbeidsbilde ${idx + 1}`}
-                width={400}
-                height={400}
-                className="w-full h-auto rounded shadow-md object-contain"
-              />
-            </li>
-          ))}
-        </ul>
+<Gallery 
+    artworks={page.supplement_images} 
+    divClassName="grid grid-cols-2 md:grid-cols-4 gap-4"
+    crop={true}
+/>
       </>
     )}
   </section>
