@@ -1,4 +1,5 @@
 import {defineField, defineType} from "sanity";
+import customImage from './objects/customImage';
 
 export const artwork = defineType ({
     name: "artwork",
@@ -46,18 +47,83 @@ export const artwork = defineType ({
             options: {
                 hotspot: "true"
             },
+        fields: [
+            {
+              name: "title",
+              title: "Bildetittel",
+              type: "string"
+            },
+    {
+      name: "alt",
+      title: "Alternativ tekst (beskrivelse for skjermleser)",
+      type: "string",
+      validation: Rule => Rule.required()
+    },
+    {
+      name: "caption",
+      title: "Bildetekst",
+      type: "text"
+    }
+  ]
         },
         {
             name: "details",
             title: "Utsnitt",
             type: "array",
-            of: [{type: "image"}]
+            of: [{ 
+                type: "image", 
+                options: {
+                    hotspot: true
+                },
+                fields: [
+
+{
+          name: "caption",
+          type: "string",
+          title: "Bildetekst",
         },
+        {
+          name: "title",
+          type: "string",
+          title: "Tittel",
+        },
+                    {
+                        name: "alt",
+                        type: "string",
+                        title: "Alternativ tekst",
+                        description: "Beskriv bildet for skjermlesere og SEO",
+                        validation: Rule => Rule.required().error("Alt-tekst er påkrevd")
+            }]
+        }]},
         {
             name: "supplement_images",
             title: "Supplerende bilder",
             type: "array",
-            of: [{type: "image"}]
+            of: [{
+                type: "image",
+                options: {
+                    hotspot: true
+                },
+                fields: [
+                    {
+                        name: "alt",
+                        type: "string",
+                        title: "Alternativ tekst",
+                        description: "Beskriv bildet for skjermlesere og SEO",
+                        validation: Rule => Rule.required().error("Alt-tekst er påkrevd")
+                    },
+{
+          name: "caption",
+          type: "string",
+          title: "Bildetekst",
+        },
+        {
+          name: "title",
+          type: "string",
+          title: "Tittel",
+        }
+                ]
+            }]
         },
         {
             name: "description",

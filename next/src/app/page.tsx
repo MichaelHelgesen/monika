@@ -2,11 +2,13 @@ import { getArtworks } from "@/lib/queries";
 import Image from "next/image";
 import Link from "next/link";
 
+import { greatVibes } from '@/app/layout'
+
 import { sanityClient } from "@/lib/sanity"
 
 async function getFeaturedArtworks() {
   return await sanityClient.fetch(`
-    *[_type == "artwork" && avaliable == true && defined(image.asset)][0...6]{
+    *[_type == "artwork" && avaliable == true && defined(image.asset)][]{
       title,
       slug,
       image {
@@ -16,89 +18,146 @@ async function getFeaturedArtworks() {
       },
       workType->{
         Tittel
+      },
+      category->{
+        Tittel
       }
     }
   `)
 }
+
+async function getAllImages(){
+    return await sanityClient.fetch (`
+        *[_type == "artwork"][]{
+            workType->{Tittel}
+        }
+    `)
+}
+
+async function getImagesFromCategories(){
+    return await sanityClient.fetch (`
+*[_type == "artForm"]{
+  Tittel,
+  "artwork": *[
+    _type == "artwork" &&
+    workType._ref == ^._id &&
+    defined(image.asset)
+  ] | order(_createdAt desc)[0]{
+    title,
+    slug,
+    image {
+      asset->{
+        url
+      }
+    }
+  }
+}
+    `)
+}
 export default async function HomePage() {
     const artworks = await getArtworks()
+    const categoryImages = await getImagesFromCategories()
 const featuredArtworks = await getFeaturedArtworks()
+const allImages = await getAllImages()
 return (
     <main className="bg-[#2e3b37] text-white min-h-screen">
       {/* Hero */}
-      <section className="text-center py-24 px-4 bg-[#2e3b37]">
-        <h1 className="text-4xl md:text-6xl font-bold mb-4">
-          Monika Helgesen
-        </h1>
-        <p className="text-lg md:text-xl text-gray-300">
-          Maleri · Tegning · Grafikk
-        </p>
-      </section>
+<section className="text-center pb-10 pt-22 px-4 bg-[#2e3b37] hero">
+<h1 className={`${greatVibes.className} text-4xl md:text-8xl mb-4`} style={{
+  background: 'linear-gradient(90deg, #f0ead8, rgb(167 134 76))', 
+  WebkitBackgroundClip: 'text',
+  color: 'transparent',
+  lineHeight: "1.2"
+}}>
+  Monika Helgesen
+</h1>
+  <p className="text-lg md:text-2xl text-[#f0ead8] mt-4 leading-relaxed">
+    Kitchmalerinne<br />
+    <span className="text-yellow-200">Maleri · Tegning · Grafikk</span>
+  </p>
+  </section>
 
-      {/* Kunstformer */}
-      <section className="py-16 px-4 max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[
-            { title: "Malerier", slug: "maleri", img: "/maleri-eksempel.jpg" },
-            { title: "Tegninger", slug: "tegning", img: "/tegning-eksempel.jpg" },
-            { title: "Grafikk", slug: "grafikk", img: "/grafikk-eksempel.jpg" },
-          ].map((item) => (
-            <Link
-              key={item.slug}
-              href={`/${item.slug}`}
-              className="group bg-white text-black rounded overflow-hidden shadow-lg hover:shadow-xl transition"
-            >
-              <Image
-                src={item.img}
-                alt={item.title}
-                width={600}
-                height={400}
-                className="w-full h-64 object-cover"
-              />
-              <div className="p-4 text-center">
-                <h2 className="text-xl font-semibold group-hover:underline">
-                  {item.title}
-                </h2>
+<section id="kategorier" className="my-10 px-4 max-w-6xl mx-auto">
+  <ul className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 gap-6">
+    {categoryImages.map((item, idx) => {
+      const artwork = item.artwork;
+      const numberOfArtworks = allImages.filter(img => img.workType.Tittel === item.Tittel).length;
+      const numberForSale = featuredArtworks.filter(img => img.workType.Tittel === item.Tittel).length;
+
+      if (!artwork?.image?.asset?.url) return null;
+
+      return (
+        <li key={idx} className="relative rounded-lg overflow-hidden shadow-md group aspect-[16/9] md:aspect-[3/4]">
+          <Link href={`/${item.Tittel.toLowerCase()}`}>
+            <Image
+              src={artwork.image.asset.url}
+              alt={artwork.title}
+              width={400}
+              height={400}
+              className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+            />
+            <div className="absolute inset-0 bg-black/80 flex flex-col justify-center items-center text-white px-4 text-center gap-2">
+              {/* Kategori-tittel */}
+              <h2 className="text-xl md:text-3xl font-semibold mb-1">{item.Tittel}</h2>
+
+              {/* Antall verk og til salgs */}
+              {numberOfArtworks > 0 && <span className="text-sm">{`${numberOfArtworks} verk`}</span>}
+              {numberForSale > 0 && <span className="text-sm">{`${numberForSale} til salgs`}</span>}
+
+              {/* Se verk-knapp */}
+              <div
+                className="mt-3 inline-block px-4 py-2 bg-[var(--accent)] hover:bg-red-500 text-black rounded-lg font-semibold text-sm hover:bg-yellow-300 transition"
+              >
+                Se verk
               </div>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* Bio */}
-      <section className="bg-[#384640] py-12 px-4 text-center">
-        <div className="max-w-2xl mx-auto">
-          <p className="text-lg text-gray-200">
-            Monika Helgesen arbeider med maleri, tegning og grafikk – ofte inspirert av natur, stillhet og det menneskelige. Hun er utdannet ved ... og har hatt utstillinger i ...
-          </p>
-          <Link
-            href="/om-monika"
-            className="inline-block mt-4 text-white underline hover:text-gray-300"
-          >
-            Les mer om kunstneren →
+            </div>
           </Link>
-        </div>
-      </section>
+        </li>
+      );
+    })}
+  </ul>
+</section>
+      {/* Bio */}
+<section className="bg-[#44544d] py-12 px-4 text-center">
+  <div className="max-w-2xl mx-auto">
+    {/* Bilde av kunstneren */}
+    <img
+      src="https://monikahelgesen.com/wp-content/uploads/2017/06/IMG_20160803_152823-480x600.jpg"  // bytt ut med riktig sti til bildet ditt
+      alt="Monika Helgesen"
+      className="mx-auto mb-6 w-48 h-48 object-cover rounded-full shadow-lg"
+    />
+
+    <p className="text-lg text-gray-200">
+      Monika Helgesen arbeider med maleri, tegning og grafikk – ofte inspirert av natur, stillhet og det menneskelige. Hun er utdannet ved ... og har hatt utstillinger i ...
+    </p>
+    <Link
+      href="/om-monika"
+      className="inline-block mt-4 text-white underline hover:text-gray-300"
+    >
+      Les mer om kunstneren →
+    </Link>
+  </div>
+</section>
 
       {/* Utvalgte kunstverk */}
       {featuredArtworks.length > 0 && (
         <section className="py-16 px-4 max-w-6xl mx-auto">
-          <h2 className="text-2xl font-bold text-center mb-8">Til salgs</h2>
+          <h2 className="text-2xl font-bold text-center mb-8 text-[#f0ead8]">Trykk og bilder til salgs</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {featuredArtworks.map((artwork: any) => (
               <Link
                 key={artwork.slug.current}
-                href={`/${artwork.workType?.Tittel?.toLowerCase()}/${artwork.slug.current}`}
-                className="bg-white text-black rounded overflow-hidden shadow hover:shadow-lg"
+                href={`/${artwork.workType?.Tittel?.toLowerCase()}/${artwork.category.Tittel.toLowerCase()}/${artwork.slug.current}`}
               >
                 <Image
                   src={artwork.image.asset.url}
                   alt={artwork.title}
                   width={600}
                   height={600}
-                  className="w-full h-64 object-contain bg-white"
+                  className="w-full h-auto object-contain p-2 bg-[#f0ead8] shadow-[0_8px_20px_rgba(0,0,0,0.3)] border-4 border-black"
                 />
                 <div className="p-4 text-center">
+                <small className="italic">{artwork.workType.Tittel}</small>
                   <p className="font-medium">{artwork.title}</p>
                 </div>
               </Link>
@@ -108,14 +167,6 @@ return (
       )}
 
       {/* Kontakt / Footer */}
-      <footer className="bg-[#1f2623] text-center py-8 mt-12 text-gray-400 text-sm">
-        <p>© {new Date().getFullYear()} Monika Helgesen</p>
-        <p className="mt-2">
-          <Link href="/kontakt" className="underline hover:text-white">
-            Ta kontakt
-          </Link>
-        </p>
-      </footer>
     </main>
   )
 /*

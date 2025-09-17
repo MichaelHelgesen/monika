@@ -50,11 +50,11 @@ const { slug } = await params;
 
 if(!page.artForm){
   return (
-    <main>
-      <h1>{page.title}</h1>
+<main className="px-4 py-8">
+  <h1 className="text-2xl font-bold text-center mb-2">{page.title}</h1>
+<div className="mb-6 max-w-3xl center mx-auto">
       <PortableText value={page.content} />
-      <ul>
-        </ul>
+      </div>
     </main>
   );
 }
@@ -70,12 +70,13 @@ const artworks = await sanityClient.fetch(
             url
         }
       },
-      description
+      description,
+      avaliable
     }`,
     {
       artFormId: page.artForm._id,
     })
-console.log(artworks)
+console.log("artworks", artworks)
 
 /*
 const motiverTelling = artworks.reduce((acc: Record<string, number>, art: {category:{ Tittel: string}, image:{asset:{url: string}}}) => {
@@ -93,26 +94,30 @@ const motiverArray = Object.entries(motiverTelling).map(([category, count]) => (
 console.log("motiverArray", motiverArray);
 */
 
-const motivMap = artworks.reduce((acc: Map<string, { category: string; count: number; imageUrl: string | null }>, art: {category:{Tittel: string}, image:{asset:{url: string}}}) => {
+const motivMap = artworks.reduce((acc: Map<string, { category: string; count: number; forSale: number, imageUrl: string | null }>, art: {category:{Tittel: string}, avaliable:boolean, image:{asset:{url: string}}}) => {
   const category = art.category?.Tittel || "Ukjent";
   const imageUrl = art.image?.asset?.url || null;
-
+  const avaliable = art.avaliable;
   if (acc.has(category)) {
     const existing = acc.get(category)!;
     existing.count += 1;
+    if(avaliable){
+        existing.forSale += 1;
+    }
     // Behold det første bildet, eller:
     // existing.imageUrl = imageUrl; // <-- For siste bilde
   } else {
     acc.set(category, {
       category,
       count: 1,
+      forSale: avaliable ? 1 : 0,
       imageUrl, // første bildet lagres
     });
   }
 
 
   return acc;
-}, new Map<string, { category: string; count: number; imageUrl: string | null }>());
+}, new Map<string, { category: string; forSale: number, count: number; imageUrl: string | null }>());
 
   console.log(motivMap)
 
@@ -128,10 +133,11 @@ console.log(test)
       <PortableText value={page.content} />
       </div>
       <p className="text-center mb-6">{page.artForm.description}</p>
-      <ul>
+      <ul className="grid grid-cols-1 sm:grid-cols-3 gap-6">
       {(test as { category: string; count: number; imageUrl: string }[]).map((artwork, idx) => {
+          console.log(artwork.category)
             return(
-<li key={idx} className="relative h-64 rounded-lg overflow-hidden shadow-md group">
+<li key={idx} className="relative rounded-lg overflow-hidden shadow-md group">
         <Link href={`${slug}/${artwork.category.toLowerCase()}`}>
           <Image
             src={artwork.imageUrl}
@@ -143,6 +149,7 @@ console.log(test)
           <div className="absolute inset-0 bg-black/50 flex flex-col justify-center items-center text-white px-4 text-center">
             <p className="text-xl font-semibold">{artwork.category}</p>
             <span className="text-sm">{artwork.count} verk</span>
+            <span className="text-sm">{artwork.forSale} til salgs</span>
           </div>
         </Link>
       </li>

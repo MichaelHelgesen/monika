@@ -32,8 +32,8 @@ const { slug, motiv, verk } = await params;
         size,
         number,
         avaliable,
-        details[]{asset->{url}},
-        supplement_images[]{asset->{url}},
+        details[]{asset->{url},alt,title,caption},
+        supplement_images[]{asset->{url, title, caption, alt}},
         technique,
         year,
         category->{Tittel},
@@ -41,6 +41,9 @@ const { slug, motiv, verk } = await params;
         slug{current},
         description,
         image{
+            title,
+            alt,
+            caption,
             asset->{
                 url
             }
@@ -76,6 +79,7 @@ return (
     height={600}
     priority={true}
     divClassName=""
+    alt={page.image.alt}
 />
     </div>
 
@@ -102,8 +106,8 @@ return (
         {page.number && (
           <li><strong>Antall tilgjengelig:</strong> {page.number}</li>
         )}
-        {page.price && (
-          <li class="text-lg font-semibold text-green-300 mb-2"><strong>Pris:</strong> {page.price}</li>
+        {page.avaliable && page.price && (
+          <li className="text-lg font-semibold text-green-300 mb-2"><strong>Pris:</strong> {page.price}</li>
         )}
       </ul>
 {page.avaliable ? (
@@ -117,6 +121,7 @@ return (
         data-item-description={page.description}
         data-item-image={page.image?.asset?.url}
         data-item-name={page.title}
+        data-config-modal-style="slide"
       >
         Legg i handlekurv
       </button>
@@ -139,10 +144,6 @@ return (
 )}
     </div>
 
-    {/* Handlekurv-knapp */}
-    <button className="snipcart-checkout fixed top-4 right-4 bg-black text-white px-4 py-2 rounded shadow-lg hover:bg-gray-800 z-50">
-      🛒 Handlekurv (<span className="snipcart-items-count"></span>)
-    </button>
   </div>
 
 {(page.details?.length > 0 || page.supplement_images?.length > 0) && (
