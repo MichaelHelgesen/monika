@@ -2,6 +2,22 @@
 
 import { useEffect } from 'react'
 import { SNIPCART_API_KEY } from "@/lib/env"
+interface SnipcartSettingsType {
+  publicApiKey: string;
+  loadStrategy?: "on-user-interaction" | "on-demand" | "immediate";
+  modalStyle?: "side" | "overlay";
+  autopop?: boolean;
+  // legg til flere felter du bruker
+}
+
+declare global {
+  interface Window {
+    SnipcartSettings?: SnipcartSettingsType;
+  }
+}
+
+
+const SNIPCART_API = SNIPCART_API_KEY!;
 
 export default function SnipcartProvider() {
   useEffect(() => {
@@ -10,8 +26,8 @@ export default function SnipcartProvider() {
     // Sett Snipcart config bare hvis den ikke finnes fra før
     if (!window.SnipcartSettings) {
       window.SnipcartSettings = {
-        publicApiKey: SNIPCART_API_KEY,
-        loadStrategy: 'always',
+        publicApiKey: SNIPCART_API,
+        loadStrategy: 'on-user-interaction',
         modalStyle: 'side', // 👈 gjør cart til "drawer"
       }
     }

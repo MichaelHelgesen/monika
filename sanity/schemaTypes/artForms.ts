@@ -14,6 +14,14 @@ export const artForms = defineType ({
             type: "text",
             title: "Beskrivelse"
         }),
+defineField({
+      name: "image",
+      type: "image",
+      title: "Bilde",
+      options: {
+        hotspot: true, // gjør det mulig å velge fokuspunkter
+      },
+    }),
     ]
 })
 

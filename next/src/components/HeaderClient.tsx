@@ -2,7 +2,7 @@
 'use client';
 import { useState } from "react";
 import { montserrat, greatVibes } from "@/app/layout";
-import { usePathname } from "next/navigation";
+//import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 type Page = {
@@ -13,7 +13,7 @@ type Page = {
 };
 
 export default function HeaderClient({ pages }: { pages: Page[] }) {
-  const pathname = usePathname();
+ // const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -33,7 +33,7 @@ export default function HeaderClient({ pages }: { pages: Page[] }) {
             <Link
               key={page.slug.current}
               className={`${montserrat.className}`}
-              href={`/${page.slug.current}`}
+              href={`/${page.slug}`}
             >
               {page.title}
             </Link>

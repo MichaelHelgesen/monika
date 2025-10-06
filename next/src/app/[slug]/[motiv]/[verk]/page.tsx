@@ -1,15 +1,14 @@
-// app/[slug]/[motiv]/page.tsx
 
 import { sanityClient } from '@/lib/sanity'
 import { notFound } from 'next/navigation'
-import Image from "next/image";
+//import Image from "next/image";
 import Link from "next/link";
 import Gallery from "@/components/Gallery";
+import Button from "@/components/Button"
 
 type PageProps = {
   params: Promise<{
     slug: string
-    motiv: string
     verk: string
   }>;
 }
@@ -24,7 +23,7 @@ export async function generateStaticParams() {
   return slugs.map((slug) => ({ slug }));
 }
 export default async function Page({ params }: PageProps) {
-const { slug, motiv, verk } = await params;
+const { verk } = await params;
  const page = await sanityClient.fetch(
     `*[_type == "artwork" && slug.current == $verk][0]{
         title,
@@ -116,15 +115,16 @@ return (
       <button
         className="snipcart-add-item bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
         data-item-id={page.slug}
-        data-item-price={page.price}
-        data-item-url={`https://monika-kappa.vercel.app/`}
-        data-item-description={page.description}
-        data-item-image={page.image?.asset?.url}
-        data-item-name={page.title}
+            data-item-price={page.price}
+            data-item-url={`https://monika-kappa.vercel.app/`}
+            data-item-description={page.description}
+            data-item-image={page.image?.asset?.url}
+            data-item-name={page.title}
         data-config-modal-style="slide"
       >
         Legg i handlekurv
       </button>
+      <Button>Legg i handlekurv</Button>
     </div>
   ) : (
 <div>
