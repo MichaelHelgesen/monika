@@ -28,7 +28,7 @@ export default function HeaderClient({ pages }: { pages: Page[] }) {
         </Link>
 
         {/* Desktopmeny */}
-        <nav className="hidden lg:flex flex-wrap justify-center gap-6 text-md font-medium">
+        <nav className="hidden md:flex flex-wrap justify-center gap-6 text-md font-medium">
           {pages.map((page) => (
             <Link
               key={page.slug.current}
@@ -43,7 +43,7 @@ export default function HeaderClient({ pages }: { pages: Page[] }) {
         <div className="flex items-center gap-4">
           {/* Mobilmeny-knapp */}
           <button
-            className="lg:hidden flex items-center"
+            className="md:hidden flex items-center"
             onClick={() => setMenuOpen(true)}
             aria-label="Åpne meny"
           >

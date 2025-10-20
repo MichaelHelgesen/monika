@@ -124,7 +124,7 @@ return (
       >
         Legg i handlekurv
       </button>
-      {/*<Button>Legg i handlekurv</Button>*/}
+      <Button>Legg i handlekurv</Button>
     </div>
   ) : (
 <div>
