@@ -45,7 +45,7 @@ export const artwork = defineType ({
             title: "Hovedbilde",
             type: "image",
             options: {
-                hotspot: "true"
+                hotspot: true
             },
         fields: [
             {
