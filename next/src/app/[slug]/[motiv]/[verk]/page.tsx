@@ -114,7 +114,7 @@ return (
     <div>
       <button
         className="snipcart-add-item bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-        data-item-id={page.slug}
+        data-item-id={page.slug.current}
             data-item-price={page.price}
             data-item-url={`https://monika-kappa.vercel.app/`}
             data-item-description={page.description}

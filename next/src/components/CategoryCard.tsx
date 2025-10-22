@@ -1,6 +1,7 @@
 // CategoryCard.tsx
 import Link from "next/link";
 import Button from "@/components/Button";
+import Image from "next/image"
 
 type CategoryCardProps = {
   title: string;
@@ -19,16 +20,22 @@ export default function CategoryCard({
   count,
   forSale,
 }: CategoryCardProps) {
-  return (
+return (
     <li className="relative rounded-lg overflow-hidden shadow-md group aspect-[16/9] md:aspect-[3/4]">
-      <Link
-        href={slug}
-        className="bg-cover block w-full h-full"
-        style={{
-          backgroundImage: `url(${imageUrl})`,
-          backgroundPosition: `${hotspot.x * 100}% ${hotspot.y * 100}%`,
-        }}
-      >
+      <Link href={slug} className="block w-full h-full relative">
+        <Image
+          src={imageUrl}
+          alt={title}
+          fill
+          priority
+	  fetchPriority="high"
+          sizes="(max-width: 768px) 100vw, 50vw"
+          style={{
+            objectFit: "cover",
+            objectPosition: `${hotspot.x * 100}% ${hotspot.y * 100}%`,
+          }}
+        />
+
         <div className="absolute inset-0 bg-black/80 flex flex-col justify-center items-center text-white px-4 text-center gap-2">
           <h2 className="text-xl md:text-3xl font-semibold mb-1">{title}</h2>
           {count > 0 && <span className="text-md">{count} verk</span>}
@@ -37,5 +44,4 @@ export default function CategoryCard({
         </div>
       </Link>
     </li>
-  );
-}
+  );}

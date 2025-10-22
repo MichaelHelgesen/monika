@@ -29,9 +29,9 @@ export default function HeaderClient({ pages }: { pages: Page[] }) {
 
         {/* Desktopmeny */}
         <nav className="hidden lg:flex flex-wrap justify-center gap-6 text-md font-medium">
-          {pages.map((page) => (
+          {pages.map((page, index) => (
             <Link
-              key={page.slug.current}
+              key={index}
               className={`${montserrat.className}`}
               href={`/${page.slug}`}
             >
@@ -136,9 +136,9 @@ export default function HeaderClient({ pages }: { pages: Page[] }) {
         </div>
 
         <nav className="flex flex-col gap-4 p-4 text-lg">
-          {pages.map((page) => (
+          {pages.map((page, index) => (
             <Link
-              key={page.slug.current}
+              key={index}
               className={`${montserrat.className}`}
               href={`/${page.slug.current}`}
               onClick={() => setMenuOpen(false)}

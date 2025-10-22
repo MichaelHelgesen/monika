@@ -10,20 +10,23 @@ import HeaderWrapper from '@/components/HeaderWrapper';
 export const greatVibes = Great_Vibes({
   subsets: ['latin'],
   weight: '400',
+  display: "swap"
 });
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter", // gjør den tilgjengelig som CSS-var
+  display: "swap"
 });
 
 export const poppins = Poppins({
   subsets: ["latin"],
   weight: "500",
   variable: "--font-poppins", // gjør den tilgjengelig som CSS-var
+  display: "swap"
 });
 
-export const montserrat = Montserrat({ subsets: ['latin'], weight: '500' });
+export const montserrat = Montserrat({ subsets: ['latin'], weight: '500', display: "swap" });
 
 /*
 const metadata: Metadata = {
