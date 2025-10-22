@@ -14,6 +14,7 @@ type Page = {
 
 export default function HeaderClient({ pages }: { pages: Page[] }) {
  // const pathname = usePathname();
+	console.log(pages)
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -140,7 +141,7 @@ export default function HeaderClient({ pages }: { pages: Page[] }) {
             <Link
               key={index}
               className={`${montserrat.className}`}
-              href={`/${page.slug.current}`}
+              href={`/${page.slug}`}
               onClick={() => setMenuOpen(false)}
             >
               {page.title}
