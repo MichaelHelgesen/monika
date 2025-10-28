@@ -37,6 +37,7 @@ type GalleryProps = {
   imageClassName?: string;
   width?: number;
   height?: number;
+  loading?: string,
   priority?: boolean;
   divClassName?: string;
   crop?: boolean;

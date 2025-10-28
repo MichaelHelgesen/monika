@@ -2,7 +2,7 @@
 'use client';
 import { useState } from "react";
 import { montserrat, greatVibes } from "@/app/layout";
-//import { usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 type Page = {
@@ -13,8 +13,8 @@ type Page = {
 };
 
 export default function HeaderClient({ pages }: { pages: Page[] }) {
- // const pathname = usePathname();
-	console.log(pages)
+  const pathname = usePathname();
+	console.log("pathname", pathname)
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -141,6 +141,7 @@ export default function HeaderClient({ pages }: { pages: Page[] }) {
             <Link
               key={index}
               className={`${montserrat.className}`}
+className={pathname === `/${page.slug}` ? 'active' : ''}
               href={`/${page.slug}`}
               onClick={() => setMenuOpen(false)}
             >
