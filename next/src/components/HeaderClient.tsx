@@ -140,7 +140,6 @@ export default function HeaderClient({ pages }: { pages: Page[] }) {
           {pages.map((page, index) => (
             <Link
               key={index}
-              className={`${montserrat.className}`}
 className={pathname === `/${page.slug}` ? 'active' : ''}
               href={`/${page.slug}`}
               onClick={() => setMenuOpen(false)}
