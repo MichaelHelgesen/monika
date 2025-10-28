@@ -77,6 +77,7 @@ return (
     width={600}
     height={600}
     priority={true}
+    loading="eager"
     divClassName=""
     alt={page.image.alt}
 />

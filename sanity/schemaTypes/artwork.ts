@@ -22,7 +22,10 @@ export const artwork = defineType ({
                     input
                         .toLowerCase()
                         .replace(/\s+/g, '-')
-                        .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, ""),
+                        .replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, "")
+			.replace(/æ/g, 'ae')
+        		.replace(/ø/g, 'o')
+        		.replace(/å/g, 'a')
             },
         },
         {

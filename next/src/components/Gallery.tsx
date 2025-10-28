@@ -84,6 +84,7 @@ const lightboxRef = useRef<ControllerRef>(null);
                 height={height}
                 className={imageClassName}
                 priority={priority}
+		loading="eager"
               />
             </div>
           );
