@@ -20,9 +20,9 @@ export default function HeaderClient({ pages }: { pages: Page[] }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
+
     <header className="sticky top-0 w-full border-b shadow-sm bg-[#1f2623] text-white z-19">
       <div className="px-4 py-6 flex items-center justify-between">
-      <MobileMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} menuItems={pages} />
         {/* Logo */}
         <Link
           href="/"
