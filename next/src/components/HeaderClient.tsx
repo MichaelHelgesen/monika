@@ -4,6 +4,8 @@ import { useState } from "react";
 import { montserrat, greatVibes } from "@/app/layout";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import MobileMenu from "./MobileMenu"
+import BreadCrumb from "./Breadcrumb"
 
 type Page = {
   title: string;
@@ -20,6 +22,7 @@ export default function HeaderClient({ pages }: { pages: Page[] }) {
   return (
     <header className="sticky top-0 w-full border-b shadow-sm bg-[#1f2623] text-white z-19">
       <div className="px-4 py-6 flex items-center justify-between">
+      <MobileMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} menuItems={pages} />
         {/* Logo */}
         <Link
           href="/"
@@ -27,19 +30,28 @@ export default function HeaderClient({ pages }: { pages: Page[] }) {
         >
           Monika Helgesen
         </Link>
+{/* Desktopmeny */}
+<nav className="hidden lg:flex flex-wrap justify-center gap-6 text-md font-medium">
+  {pages.map((page, index) => {
+    const isActive = pathname.startsWith(`/${page.slug}`);
 
-        {/* Desktopmeny */}
-        <nav className="hidden lg:flex flex-wrap justify-center gap-6 text-md font-medium">
-          {pages.map((page, index) => (
-            <Link
-              key={index}
-              className={`${montserrat.className}`}
-              href={`/${page.slug}`}
-            >
-              {page.title}
-            </Link>
-          ))}
-        </nav>
+    return (
+      <Link
+        key={index}
+        href={`/${page.slug}`}
+        className={`
+          ${montserrat.className} relative px-2 py-1 transition-all duration-300
+          ${isActive 
+            ? "text-[var(--accent)] after:content-[''] after:absolute after:left-0 after:right-0 after:-bottom-1 after:h-[2px] after:bg-[var(--accent)] after:rounded-full"
+            : "text-[#f0ead8] hover:text-[var(--accent)] hover:after:content-[''] hover:after:absolute hover:after:left-0 hover:after:right-0 hover:after:-bottom-1 hover:after:h-[2px] hover:after:bg-[var(--accent)] hover:after:rounded-full"
+          }
+        `}
+      >
+        {page.title}
+      </Link>
+    );
+  })}
+</nav>
 
         <div className="flex items-center gap-4">
           {/* Mobilmeny-knapp */}
@@ -98,8 +110,9 @@ export default function HeaderClient({ pages }: { pages: Page[] }) {
   </span>
           </button>
         </div>
-      </div>
 
+      </div>
+<BreadCrumb />
       {/* Overlay */}
       {menuOpen && (
         <div
@@ -137,10 +150,11 @@ export default function HeaderClient({ pages }: { pages: Page[] }) {
         </div>
 
         <nav className="flex flex-col gap-4 p-4 text-lg">
+
           {pages.map((page, index) => (
             <Link
               key={index}
-className={pathname === `/${page.slug}` ? 'active' : ''}
+className={pathname.startsWith(`/${page.slug}`) ? 'active' : ''}
               href={`/${page.slug}`}
               onClick={() => setMenuOpen(false)}
             >
@@ -149,6 +163,7 @@ className={pathname === `/${page.slug}` ? 'active' : ''}
           ))}
         </nav>
       </div>
+
     </header>
   );
 }
