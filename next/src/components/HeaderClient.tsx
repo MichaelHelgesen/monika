@@ -9,9 +9,8 @@ import BreadCrumb from "./Breadcrumb"
 
 type Page = {
   title: string;
-  slug: {
-    current: string;
-  };
+  slug: string;
+  children?: Page[];
 };
 
 export default function HeaderClient({ pages }: { pages: Page[] }) {
@@ -24,6 +23,7 @@ export default function HeaderClient({ pages }: { pages: Page[] }) {
     <header className="sticky top-0 w-full border-b shadow-sm bg-[#1f2623] text-white z-19">
       <div className="px-4 py-6 flex items-center justify-between">
         {/* Logo */}
+	<MobileMenu menuItems={pages} menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
         <Link
           href="/"
           className={`text-3xl tracking-tight ${greatVibes.className}`}
