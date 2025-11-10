@@ -83,7 +83,7 @@ export default async function MotivPage({ params }: Props) {
 
   // Hent alle artworks som matcher både artForm og motiv
   const artworks = await sanityClient.fetch(
-    `*[_type == "artwork" && workType._ref == $artFormId && lower(category->Tittel) == $motiv]{
+    `*[_type == "artwork" && workType._ref == $artFormId && lower(category->Tittel) == $motiv] | order(year desc){
       title,
       year,
       price,
@@ -113,9 +113,9 @@ export default async function MotivPage({ params }: Props) {
   <p className="mb-2 text-center">{artworks[0]?.category?.description}</p>
   <p className="mb-6 text-center">Totalt {artworks.length} kunstverk</p>
 
-<ul className="columns-1 sm:columns-2 md:columns-3 gap-4 [column-fill:_balance]">
+<ul className="columns-1 sm:columns-2 md:columns-3 gap-9 [column-fill:_balance] max-w-6xl mx-auto">
   {artworks.map((artwork: Artwork, idx: number) => (
-      <li key={idx} className="mb-4 break-inside-avoid">
+      <li key={idx} className="mb-10 break-inside-avoid">
         <Link href={`/${slug}/${motiv}/${artwork.slug.current}`}>
           <Image
             src={artwork.image.asset.url}
@@ -125,7 +125,7 @@ export default async function MotivPage({ params }: Props) {
 	    loading={idx < 3 ? 'eager' : 'lazy'}
             className="w-full h-auto object-contain p-2 bg-[#f8f8f8] shadow-[0_8px_20px_rgba(0,0,0,0.3)] border-4 border-black"
           />
-          <p className="mt-1 text-sm text-center">{artwork.title}{artwork.year && `, ${artwork.year}`}</p>
+          <h2 className="mt-2 text-lg text-center">{artwork.title}{artwork.year && `, ${artwork.year}`}</h2>
           {artwork.avaliable ? (
   <p className="text-sm italic text-white/60 text-center">Til salgs</p>
 ) : null}

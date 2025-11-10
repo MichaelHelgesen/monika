@@ -60,9 +60,9 @@ return (
 <main className="px-4 py-8 max-w-5xl mx-auto">
   <h1 className="text-3xl font-bold mb-4">{page.title}</h1>
 
-  <div className="flex flex-col md:flex-row md:items-start gap-6">
+  <div className="flex flex-col lg:flex-row md:items-start gap-6">
     {/* Bildet */}
-    <div className="flex-shrink-0 w-full md:w-1/2">
+    <div className="flex-shrink-0 w-full lg:w-1/2">
     {/*<Image
         src={page.image.asset.url}
         width={600}
