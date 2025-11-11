@@ -16,10 +16,10 @@
   ],
   "dependencies": {
     "@sanity/dashboard": "^4.1.4",
-    "@sanity/vision": "^4.11.0",
+    "@sanity/vision": "^4.15.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sanity": "^4.11.0",
+    "sanity": "^4.15.0",
     "styled-components": "^6.1.19"
   },
   "devDependencies": {

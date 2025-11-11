@@ -34,10 +34,25 @@ export const artwork = defineType ({
             type: "string"
         },
         {
-            name: "year",
+            name: "year2",
             title: "År",
-            type: "string"
+            type: "string",
+		deprecated: {
+		    reason: 'Bruk "Årstall i stedet. Feltet brukes til å sortere på, så vi kan ikke blande både tekst og tall.'
+		  },
+		  readOnly: true,
         },
+  {
+            name: "year",
+            title: "Årstall",
+	    description: "Velg årstallet og trykk på vilkårlig dato. Det er bare årstallet som vises på nettsiden.",
+            type: "date",
+	    options: {
+		dateFormat: "YYYY",
+	    }
+
+        },
+
         {
             name: "technique",
             title: "Teknikk",
