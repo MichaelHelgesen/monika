@@ -50,7 +50,7 @@ export async function generateStaticParams() {
 
 type Artwork = {
   title: string;
-  year?: string | number;
+  year?: string;
   price?: number;
   avaliable?: boolean;
   description?: string;
