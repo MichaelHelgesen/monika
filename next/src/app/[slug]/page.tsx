@@ -100,7 +100,7 @@ console.log("motiverArray", motiverArray);
   // Returner JSX med innholdet
   return (
 
-    <main className="px-4 py-8 max-w-6xl">
+    <main className="px-4 py-8 max-w-6xl mx-auto">
       <h1 className="text-2xl text-center font-bold mb-2">{page.title}</h1>
       <div className="mb-6 text-center">
       <PortableText value={page.content} />

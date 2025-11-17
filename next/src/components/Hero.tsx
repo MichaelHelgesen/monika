@@ -11,7 +11,7 @@ export default function Hero() {
     <section className="relative text-center pb-10 pt-22 px-4 bg-[#2e3b37] overflow-hidden">
       {/* Hero-bilde */}
       <Image
-        src="/adobe3.jpeg"
+        src="/bg1.jpeg"
         alt="Bakgrunnsbilde for Monika Helgesen"
         fill
         priority
