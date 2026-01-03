@@ -16,7 +16,7 @@ type PageProps = {
 
 async function getPage(slug: string) {
   return sanityClient.fetch(
-    `*[_type == "page" && slug.current == $slug][0]{
+    `*[_type == "page" && slug.current == slug][0]{
       title,
       content,
       metaTitle,
@@ -45,7 +45,7 @@ export async function generateStaticParams() {
   return slugs.map((slug) => ({ slug }));
 }
 
-
+/*
 export async function generateMetadata({ params }): Promise<Metadata> {
   const page = await getPage(params.slug);
 
@@ -66,7 +66,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
     }
   };
 }
-
+*/
 // Hver av slug-ene fra StaticParam sendes
 // gjennom Page-funksjonen for å hente tilhørende
 // side-data fra Sanity.

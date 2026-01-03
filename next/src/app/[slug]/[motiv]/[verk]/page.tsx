@@ -22,9 +22,9 @@ async function getMetadataForPage(slug: string, motiv: string) {
     { motiv }
   );
 }
-
+/*
 // --- GENERATE METADATA --- //
-export async function generateMetadata({ params }: Props) {
+export async function generateMetadata({ params }: PageProps) {
   const { slug, motiv } = await params;
 
   const meta = await getMetadataForPage(slug, motiv);
@@ -50,7 +50,7 @@ console.log("MOTIV", motiv);
   };
 }
 
-
+*/
 
 // Hente slug fra alle kunstverk i Sanity,
 // og lager array av objekter av dem,
