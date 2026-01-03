@@ -13,6 +13,45 @@ type PageProps = {
   }>;
 }
 
+// --- HENT FOR METADATA ---
+async function getMetadataForPage(slug: string, motiv: string) {
+  return sanityClient.fetch(
+    `*[_type == "artwork" && slug.current == $motiv][0]{
+	Tittel,
+    }`,
+    { motiv }
+  );
+}
+
+// --- GENERATE METADATA --- //
+export async function generateMetadata({ params }: Props) {
+  const { slug, motiv } = await params;
+
+  const meta = await getMetadataForPage(slug, motiv);
+console.log("META", meta);
+console.log("SLUG", slug);
+console.log("MOTIV", motiv);
+  if (!meta) {
+    return {
+      title: "Standard tittel",
+      description: "Standard beskrivelse",
+    };
+  }
+
+  return {
+    title: `${slug} med ${motiv}-motiv`,
+    description: meta.metaDescription ?? "",
+    openGraph: {
+      title: meta.metaTitle ?? slug,
+      description: meta.metaDescription ?? "",
+      images: meta.ogImage ? [{ url: meta.ogImage, width: 1200, height: 630 }] : [],
+      type: "website",
+    },
+  };
+}
+
+
+
 // Hente slug fra alle kunstverk i Sanity,
 // og lager array av objekter av dem,
 // som blir konvertert til statiske baner.

@@ -12,6 +12,45 @@ type Props = {
   }>;
 };
 
+
+
+// --- HENT FOR METADATA ---
+async function getMetadataForPage(slug: string, motiv: string) {
+  return sanityClient.fetch(
+    `*[_type == "artCategory" && lower(Tittel) == $motiv][0]{
+	Tittel,
+    }`,
+    { motiv }
+  );
+}
+
+// --- GENERATE METADATA --- //
+export async function generateMetadata({ params }: Props) {
+  const { slug, motiv } = await params;
+
+  const meta = await getMetadataForPage(slug, motiv.toLowerCase());
+console.log("META", meta);
+console.log("SLUG", slug);
+console.log("MOTIV", motiv);
+  if (!meta) {
+    return {
+      title: "Standard tittel",
+      description: "Standard beskrivelse",
+    };
+  }
+
+  return {
+    title: `${slug} med ${motiv}-motiv`,
+    description: meta.metaDescription ?? "",
+    openGraph: {
+      title: meta.metaTitle ?? slug,
+      description: meta.metaDescription ?? "",
+      images: meta.ogImage ? [{ url: meta.ogImage, width: 1200, height: 630 }] : [],
+      type: "website",
+    },
+  };
+}
+
 export async function generateStaticParams() {
   // Hent alle pages som har artForm
   const pages = await sanityClient.fetch(`

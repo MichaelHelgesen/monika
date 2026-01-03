@@ -14,6 +14,27 @@ type PageProps = {
   }>;
 };
 
+async function getPage(slug: string) {
+  return sanityClient.fetch(
+    `*[_type == "page" && slug.current == $slug][0]{
+      title,
+      content,
+      metaTitle,
+      metaDescription,
+      "ogImage": metaImage.asset->url,
+      artForm->{
+        title,
+        description,
+        _id
+      }
+    }`,
+    { slug }
+  );
+}
+
+
+
+
 // Hente slugs fra alle sider i Sanity,
 // og lager array av objekter av dem,
 // som blir konvertert til statiske baner.
@@ -24,12 +45,43 @@ export async function generateStaticParams() {
   return slugs.map((slug) => ({ slug }));
 }
 
+
+export async function generateMetadata({ params }): Promise<Metadata> {
+  const page = await getPage(params.slug);
+
+  if (!page) {
+    return {
+      title: "Side ikke funnet",
+      description: "Denne siden finnes ikke."
+    };
+  }
+
+  return {
+    title: page.metaTitle,
+    description: page.metaDescription,
+    openGraph: {
+      title: page.metaTitle,
+      description: page.metaDescription,
+      images: page.ogImage ? [{ url: page.ogImage }] : []
+    }
+  };
+}
+
 // Hver av slug-ene fra StaticParam sendes
 // gjennom Page-funksjonen for å hente tilhørende
 // side-data fra Sanity.
 export default async function Page({ params }: PageProps) {
 const { slug } = await params;
   // Hent data for den spesifikke slugen
+//
+//
+
+
+
+
+
+
+
   const page = await sanityClient.fetch(
     `*[_type == "page" && slug.current == $slug][0]{
       title,
@@ -49,6 +101,7 @@ const { slug } = await params;
   if (!page) {
     return notFound(); // Returnerer en 404 hvis siden ikke finnes
   }
+
 
 if(!page.artForm){
   return (

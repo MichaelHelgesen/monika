@@ -3,11 +3,14 @@
 //import Link from "next/link";
 import ArtSaleGrid from "@/components/ArtSaleGrid"
 import Hero from "@/components/Hero"
+import type { Metadata } from "next";
 //import { poppins } from "@/app/layout";
 import BioSection from "@/components/BioSection"
-//import ImageGridCategory from "@/components/ImageGridCategory"
+//import ImageGridCat/egory from "@/components/ImageGridCategory"
 import { sanityClient } from "@/lib/sanity"
 import CategoryGrid from "@/components/CategoryGrid"
+
+
 async function getFeaturedArtworks() {
   return await sanityClient.fetch(`
     *[_type == "artwork" && avaliable == true && defined(image.asset)][]{
@@ -64,6 +67,41 @@ async function getImagesFromCategories(){
 }
     `)
 }
+
+async function getPage(){
+	return await sanityClient.fetch (`
+	*[_type == "page" && slug.current == "hjem"][0]{
+  title,
+  description,
+  metaTitle,
+  metaDescription,
+  "ogImage": metaImage.asset->url
+}`
+)
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getPage();
+console.log("PAGE", page)
+  if (!page) {
+    return {
+      title: "Standard tittel",
+      description: "Standard beskrivelse"
+    };
+  }
+
+  return {
+    title: page.metaTitle,
+    description: page.metaDescription,
+    openGraph: {
+      title: page.metaTitle,
+      description: page.metaDescription,
+      images: page.ogImage ? [{ url: page.ogImage, width: 1200, height: 630 }] : [],
+      type: "website"
+    }
+  };
+}
+
 export default async function HomePage() {
     //const artworks = await getArtworks()
     const categoryImages = await getImagesFromCategories()
