@@ -9,48 +9,57 @@ import Button from "@/components/Button"
 type PageProps = {
   params: Promise<{
     slug: string
+    motiv: string
     verk: string
   }>;
 }
 
 // --- HENT FOR METADATA ---
-async function getMetadataForPage(slug: string, motiv: string) {
+async function getMetadataForPage(verk: string) {
   return sanityClient.fetch(
-    `*[_type == "artwork" && slug.current == $motiv][0]{
-	Tittel,
+    `*[_type == "artwork" && slug.current == $verk][0]{
+      title,
+      description,
+      image{
+        asset->{
+          url
+        }
+      }
     }`,
-    { motiv }
+    { verk }
   );
 }
-/*
+
 // --- GENERATE METADATA --- //
 export async function generateMetadata({ params }: PageProps) {
-  const { slug, motiv } = await params;
+  const { slug, motiv, verk } = await params;
 
-  const meta = await getMetadataForPage(slug, motiv);
-console.log("META", meta);
-console.log("SLUG", slug);
-console.log("MOTIV", motiv);
+  const meta = await getMetadataForPage(verk);
+  console.log("META", meta);
+  console.log("SLUG", slug);
+  console.log("MOTIV", motiv);
+  console.log("VERK", verk);
+
   if (!meta) {
     return {
-      title: "Standard tittel",
-      description: "Standard beskrivelse",
+      title: "Kunstverk ikke funnet",
+      description: "Dette kunstverket finnes ikke.",
     };
   }
 
   return {
-    title: `${slug} med ${motiv}-motiv`,
-    description: meta.metaDescription ?? "",
+    title: `${meta.title} - ${slug} med ${motiv}-motiv`,
+    description: meta.description ?? `${meta.title} av Monika Helgesen`,
     openGraph: {
-      title: meta.metaTitle ?? slug,
-      description: meta.metaDescription ?? "",
-      images: meta.ogImage ? [{ url: meta.ogImage, width: 1200, height: 630 }] : [],
+      title: meta.title,
+      description: meta.description ?? "",
+      images: meta.image?.asset?.url ? [{ url: meta.image.asset.url, width: 1200, height: 630 }] : [],
       type: "website",
     },
   };
 }
 
-*/
+
 
 // Hente slug fra alle kunstverk i Sanity,
 // og lager array av objekter av dem,

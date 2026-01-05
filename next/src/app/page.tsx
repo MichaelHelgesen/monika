@@ -10,7 +10,6 @@ import BioSection from "@/components/BioSection"
 import { sanityClient } from "@/lib/sanity"
 import CategoryGrid from "@/components/CategoryGrid"
 
-
 async function getFeaturedArtworks() {
   return await sanityClient.fetch(`
     *[_type == "artwork" && avaliable == true && defined(image.asset)][]{

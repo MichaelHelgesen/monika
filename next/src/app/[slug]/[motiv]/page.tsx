@@ -19,6 +19,9 @@ async function getMetadataForPage(slug: string, motiv: string) {
   return sanityClient.fetch(
     `*[_type == "artCategory" && lower(Tittel) == $motiv][0]{
 	Tittel,
+	metaDescription,
+	metaTitle,
+	ogImage
     }`,
     { motiv }
   );
@@ -41,7 +44,7 @@ console.log("MOTIV", motiv);
 
   return {
     title: `${slug} med ${motiv}-motiv`,
-    description: meta.metaDescription ?? "",
+    description: meta.metaDescription ?? `${slug}er med ${motiv}-motiv fra kitch-maler Monika Helgesen `,
     openGraph: {
       title: meta.metaTitle ?? slug,
       description: meta.metaDescription ?? "",

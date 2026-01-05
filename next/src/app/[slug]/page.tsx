@@ -1,6 +1,7 @@
 import { sanityClient } from '@/lib/sanity';
 import { notFound } from 'next/navigation';
 import { PortableText } from '@portabletext/react';
+import type { Metadata } from 'next';
 //import Link from "next/link"
 //import Image from "next/image"
 //import ImageGridType from "@/components/ImageGridType"
@@ -16,7 +17,7 @@ type PageProps = {
 
 async function getPage(slug: string) {
   return sanityClient.fetch(
-    `*[_type == "page" && slug.current == slug][0]{
+    `*[_type == "page" && slug.current == $slug][0]{
       title,
       content,
       metaTitle,
@@ -38,6 +39,7 @@ async function getPage(slug: string) {
 // Hente slugs fra alle sider i Sanity,
 // og lager array av objekter av dem,
 // som blir konvertert til statiske baner.
+
 export async function generateStaticParams() {
   const slugs: { slug: string }[] = await sanityClient.fetch(
     `*[_type == "page" && defined(slug.current)][].slug.current`
@@ -45,9 +47,10 @@ export async function generateStaticParams() {
   return slugs.map((slug) => ({ slug }));
 }
 
-/*
-export async function generateMetadata({ params }): Promise<Metadata> {
-  const page = await getPage(params.slug);
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const page = await getPage(slug);
 
   if (!page) {
     return {
@@ -66,7 +69,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
     }
   };
 }
-*/
+
 // Hver av slug-ene fra StaticParam sendes
 // gjennom Page-funksjonen for å hente tilhørende
 // side-data fra Sanity.

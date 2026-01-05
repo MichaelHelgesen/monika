@@ -1,4 +1,4 @@
-//import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { Inter, Great_Vibes, Montserrat, Poppins } from "next/font/google";
 import "./globals.css";
 import SnipcartProvider from "@/components/SnipCartProvider"
@@ -28,12 +28,11 @@ export const poppins = Poppins({
 
 export const montserrat = Montserrat({ subsets: ['latin'], weight: '500', display: "swap" });
 
-/*
 const metadata: Metadata = {
-  title: "Kunstbutikk",
-  description: "Kunstners nettbutikk",
+  title: "Monika Bettum - Kunst",
+  description: "Utforsk Monika Bettums kunstverker",
 };
-*/
+
 export default function RootLayout({children}:{
   children: React.ReactNode}) 
 {
