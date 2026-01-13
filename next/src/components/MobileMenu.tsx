@@ -6,6 +6,7 @@ type MenuItem = {
   title: string;
   slug: string;
   children?: MenuItem[];
+  showInMenu?: boolean;
 };
 
 interface MobileMenuProps {

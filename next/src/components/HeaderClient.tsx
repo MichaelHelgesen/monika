@@ -11,6 +11,7 @@ type Page = {
   title: string;
   slug: string;
   children?: Page[];
+showInMenu?: boolean;
 };
 
 export default function HeaderClient({ pages }: { pages: Page[] }) {
@@ -125,7 +126,7 @@ export default function HeaderClient({ pages }: { pages: Page[] }) {
       {/* Slide-in meny */}
       <div
         className={`fixed top-0 right-0 h-full w-64 bg-[#1f2623] z-19 transform transition-transform duration-300 ease-in-out ${
-          menuOpen ? "translate-x-0" : "translate-x-full"
+          menuOpen ? "translate-x-0" : "translate-x-full invisible"
         }`}
       >
         <div className="flex items-center justify-between p-4 border-b border-gray-700">
