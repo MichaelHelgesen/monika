@@ -17,6 +17,7 @@ export default function HeaderClient({ pages }: { pages: Page[] }) {
   const pathname = usePathname();
 	console.log("pathname", pathname)
   const [menuOpen, setMenuOpen] = useState(false);
+  console.log("PAGES", pages);
 
   return (
 
@@ -32,7 +33,7 @@ export default function HeaderClient({ pages }: { pages: Page[] }) {
         </Link>
 {/* Desktopmeny */}
 <nav className="hidden lg:flex flex-wrap justify-center gap-6 text-md font-medium">
-  {pages.map((page, index) => {
+  {pages.filter(n => n.showInMenu).map((page, index) => {
     const isActive = pathname.startsWith(`/${page.slug}`);
 
     return (

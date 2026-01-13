@@ -28,10 +28,6 @@ export const poppins = Poppins({
 
 export const montserrat = Montserrat({ subsets: ['latin'], weight: '500', display: "swap" });
 
-const metadata: Metadata = {
-  title: "Monika Bettum - Kunst",
-  description: "Utforsk Monika Bettums kunstverker",
-};
 
 export default function RootLayout({children}:{
   children: React.ReactNode}) 

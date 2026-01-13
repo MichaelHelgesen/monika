@@ -155,7 +155,7 @@ export default async function MotivPage({ params }: Props) {
   <p className="mb-2 text-center">{artworks[0]?.category?.description}</p>
   <p className="mb-6 text-center">Totalt {artworks.length} kunstverk</p>
 
-<ul className="columns-1 md:columns-2 lg:columns-3 gap-9 [column-fill:_balance] max-w-6xl mx-auto">
+<ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-9 max-w-6xl mx-auto">
   {artworks.map((artwork: Artwork, idx: number) => (
       <li key={idx} className="mb-10 break-inside-avoid">
         <Link href={`/${slug}/${motiv}/${artwork.slug.current}`}>

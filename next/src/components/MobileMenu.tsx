@@ -15,6 +15,7 @@ interface MobileMenuProps {
 }
 
 export default function MobileMenu({ menuOpen, setMenuOpen, menuItems }: MobileMenuProps) {
+	console.log("MENUITEMS", menuItems)
   const pathname = usePathname();
 
   return (
@@ -31,7 +32,7 @@ export default function MobileMenu({ menuOpen, setMenuOpen, menuItems }: MobileM
       </div>
 
       <div className="p-4">
-        {menuItems.map((item) => (
+        {menuItems.filter(n => n.showInMenu).map((item) => (
           <MobileMenuItem
             key={item.slug}
             item={item}

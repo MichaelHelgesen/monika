@@ -53,6 +53,7 @@ export default async function HeaderWrapper() {
     `*[_type == "page"] | order(menuOrder asc){
       title,
       menuOrder,
+      showInMenu,
       "slug": slug.current
     }`
   );
