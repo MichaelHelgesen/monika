@@ -140,7 +140,7 @@ imageUrl: urlFor(item.image as SanityImageSource) // <-- cast
 
   return (
     <section id="kategorier" className="my-10 px-4 max-w-6xl mx-auto">
-      <ul className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-[repeat(auto-fit,minmax(0,1fr))] gap-6">
+      <ul className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-[repeat(auto-fit,minmax(48%,1fr))] lg:grid-cols-[repeat(auto-fit,minmax(30%,1fr))] gap-6">
         {items.map((item, idx) => (
           <CategoryCard key={idx} {...item} />
         ))}
