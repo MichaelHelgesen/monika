@@ -21,7 +21,7 @@ export default function CategoryCard({
   forSale,
 }: CategoryCardProps) {
 return (
-    <li className="relative rounded-lg overflow-hidden shadow-md group aspect-[16/9] md:aspect-[3/4]">
+    <li className="relative rounded-lg overflow-hidden shadow-md group aspect-[16/9] md:justify-self-stretch md:aspect-[3/4] md:max-h-[500px]">
       <Link href={slug} className="block w-full h-full relative">
         <Image
           src={imageUrl}
