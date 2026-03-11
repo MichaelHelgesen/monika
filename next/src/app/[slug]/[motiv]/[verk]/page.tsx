@@ -108,9 +108,9 @@ return (
 <main className="px-4 py-8 max-w-5xl mx-auto">
   <h1 className="text-3xl font-bold mb-4">{page.title}</h1>
 
-  <div className="flex flex-col lg:flex-row md:items-start gap-6">
+  <div className="flex flex-col lg:flex-row md:flex-row md:items-start gap-6">
     {/* Bildet */}
-    <div className="flex-shrink-0 w-full lg:w-1/2">
+    <div className="flex-shrink-0 w-full lg:w-1/2 md:w-1/2">
     {/*<Image
         src={page.image.asset.url}
         width={600}
@@ -132,7 +132,7 @@ return (
 
     {/* Tekst og info */}
     <div className="md:w-1/2 space-y-4">
-      <p>{page.description}</p>
+      {page.description ? <p>{page.description}</p> : null}
 
       <ul className="text-sm space-y-1">
         {page.size && (

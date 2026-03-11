@@ -33,9 +33,9 @@ export default function Breadcrumbs({ titleMap = {} }: BreadcrumbsProps) {
           <span key={href} className="flex items-center gap-2">
             <span>/</span>
             {isLast ? (
-              <span className="text-gray-200">{label}</span>
+              <span className="text-gray-200 capitalize">{label}</span>
             ) : (
-              <Link href={href} className="hover:underline">
+              <Link href={href} className="hover:underline capitalize">
                 {label}
               </Link>
             )}
